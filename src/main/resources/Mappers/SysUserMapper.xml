@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.znzz.cg.dao.SysUserMapper" >
+  <resultMap id="BaseResultMap" type="edu.znzz.cg.entity.SysUser" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="depart_id" property="departId" jdbcType="VARCHAR" />
+    <result column="clazz_id" property="clazzId" jdbcType="VARCHAR" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+    <result column="login_date" property="loginDate" jdbcType="DATE" />
+    <association property="depart" column="depart_id" javaType="edu.znzz.cg.entity.SysDepart" resultMap="departResult"/>
+    <association property="clazz" column="clazz_id" javaType="edu.znzz.cg.entity.SysClazz" resultMap="clazzResult"/>
+    <collection property="roles" javaType="java.util.List" resultMap="roleResult"></collection>
+  </resultMap>
+
+  <resultMap type="edu.znzz.cg.entity.SysDepart" id="departResult">
+  	    <id column="depart_id" property="departId" jdbcType="VARCHAR" />
+    	<result column="depart_name" property="departName" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap type="edu.znzz.cg.entity.SysClazz" id="clazzResult">
+  	    <id column="clazz_id" property="clazzId" jdbcType="VARCHAR" />
+    	<result column="clazz_name" property="clazzName" jdbcType="VARCHAR" />
+    	<result column="clazz_brief" property="clazzBrief" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap type="edu.znzz.cg.entity.SysRole" id="roleResult">
+	  	<id column="role_id" property="roleId" jdbcType="VARCHAR" />
+	    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+	    <result column="role_key" property="roleKey" jdbcType="VARCHAR" />
+	    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+	    <result column="status" property="status" jdbcType="CHAR" />
+	    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+	    <result column="create_time" property="createTime" jdbcType="DATE" />
+	    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+	    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+     select  u.user_id, u.depart_id, u.clazz_id,u.login_name, u.user_name, u.email, u.avatar, 
+     u.phone_number, u.sex, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.id_card,u.address,
+              c.clazz_name,c.clazz_brief,
+       		    d.depart_name,
+       		    r.role_id, r.role_name, r.role_key, r.status as role_status
+		from sys_user u
+             left join sys_clazz c on u.clazz_id = c.clazz_id
+			 left join sys_depart d on u.depart_id = d.depart_id
+			 left join sys_user_role ur on u.user_id = ur.user_id
+			 left join sys_role r on r.role_id = ur.role_id 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    <include refid="Base_Column_List" />
+    where u.user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="edu.znzz.cg.entity.SysUser" >
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="departId != null" >
+        depart_id,
+      </if>
+      <if test="clazzId != null" >
+        clazz_id,
+      </if>
+      <if test="loginName != null" >
+        login_name,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="idCard != null" >
+        id_card,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="loginIp != null" >
+        login_ip,
+      </if>
+      <if test="loginDate != null" >
+        login_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="departId != null" >
+        #{departId,jdbcType=VARCHAR},
+      </if>
+      <if test="clazzId != null" >
+        #{clazzId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="loginIp != null" >
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDate != null" >
+        sysdate()
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="edu.znzz.cg.entity.SysUser" >
+    update sys_user
+    <set >
+      <if test="departId != null" >
+        depart_id = #{departId,jdbcType=VARCHAR},
+      </if>
+      <if test="clazzId != null" >
+        clazz_id = #{clazzId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="loginIp != null" >
+        login_ip = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDate != null" >
+        login_date = #{loginDate,jdbcType=DATE},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+  	 select * from sys_user 
+  </select>
+  <select id="selectByPhoneNum" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <include refid="Base_Column_List" />
+  	where u.phone_number = #{phoneNumber,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByEmail" resultMap="BaseResultMap"  parameterType="java.lang.String">
+  	<include refid="Base_Column_List" />
+  	 where u.email = #{email}
+  </select>
+  <select id="selectByLoginName" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from sys_user where login_name = #{loginName}
+  </select>
+  <select id="checkLoginNameUnique" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from sys_user where login_name = #{loginName}
+  </select>
+  <select id="checkPhoneUnique" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from sys_user where  phone_number = #{phoneNumber}
+  </select>
+  <select id="checkEmailUnique" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from sys_user where  email = #{email}
+  </select>
+  <select id="selectListByUser" resultMap="BaseResultMap" parameterType="edu.znzz.cg.entity.SysUser">
+  	select u.user_id,u.depart_id,u.clazz_id,u.login_name,u.user_name,u.email,u.avatar,u.phone_number,
+  	u.sex,u.status,u.del_flag,u.login_ip, u.login_date, u.id_card,u.address,u.id_card,
+  	d.depart_name,c.clazz_name from sys_user u 
+  	left join sys_depart d on u.depart_id = d.depart_id 
+  	left join sys_clazz c on u.clazz_id = c.clazz_id
+  	where u.del_flag = '0'
+  	<if test="loginName != null and loginName != ''">
+  		and u.login_name like concat('%',#{loginName},'%')
+  	</if>
+  	<if test="userName != null and userName != ''">
+  		and u.user_name like concat('%',#{userName},'%')
+  	</if>
+  	<if test="status != null and status != ''">
+  		and u.status = #{status}
+  	</if>
+  	<if test="phoneNumber != null and phoneNumber != ''">
+  		and u.phone_number like concat('%',#{phoneNumber},'%')
+  	</if>
+  	<if test="address != null and address != ''">
+  		and u.address like concat('%',#{address},'%')
+  	</if>
+  	<if test="departId != null and departId != ''">
+			and (u.depart_id = #{departId} OR u.depart_id IN ( SELECT t.depart_id FROM sys_depart t WHERE FIND_IN_SET (#{departId},ancestors) ))
+	</if>
+	<if test="clazzId != null and clazzId != ''">
+			and (c.clazz_id = #{clazzId} OR c.clazz_id IN ( SELECT b.clazz_id FROM sys_clazz b WHERE FIND_IN_SET (#{clazzId},ancestors) ))
+	</if>
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.znzz.cg.dao.SysDepartMapper" >
+  <resultMap id="BaseResultMap" type="edu.znzz.cg.entity.SysDepart" >
+    <id column="depart_id" property="departId" jdbcType="VARCHAR" />
+    <result column="depart_name" property="departName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    depart_id, depart_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_depart
+    where depart_id = #{departId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_depart
+    where depart_id = #{departId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertDepart" parameterType="edu.znzz.cg.entity.SysDepart" >
+    insert into sys_depart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="departId != null" >
+        depart_id,
+      </if>
+      <if test="departName != null" >
+        depart_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="departId != null" >
+        #{departId,jdbcType=VARCHAR},
+      </if>
+      <if test="departName != null" >
+        #{departName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateDepart" parameterType="edu.znzz.cg.entity.SysDepart" >
+    update sys_depart
+    <set >
+      <if test="departName != null" >
+        depart_name = #{departName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where depart_id = #{departId,jdbcType=VARCHAR}
+  </update>
+ <select id="checkDepartNameUnique" parameterType="String" resultType="Integer">
+ 	select count(*) from sys_depart
+ </select>
+ <select id="selectAllDepart" resultMap="BaseResultMap">
+ 	select * from sys_depart
+ </select>
+</mapper>

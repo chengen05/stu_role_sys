@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.znzz.cg.dao.SysClazzMapper" >
+  <resultMap id="BaseResultMap" type="edu.znzz.cg.entity.SysClazz" >
+    <id column="clazz_id" property="clazzId" jdbcType="VARCHAR" />
+    <result column="clazz_name" property="clazzName" jdbcType="VARCHAR" />
+    <result column="clazz_brief" property="clazzBrief" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    clazz_id, clazz_name, clazz_brief
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_clazz
+    where clazz_id = #{clazzId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_clazz
+    where clazz_id = #{clazzId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertClazz" parameterType="edu.znzz.cg.entity.SysClazz" >
+    insert into sys_clazz
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clazzId != null" >
+        clazz_id,
+      </if>
+      <if test="clazzName != null" >
+        clazz_name,
+      </if>
+      <if test="clazzBrief != null" >
+        clazz_brief,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clazzId != null" >
+        #{clazzId,jdbcType=VARCHAR},
+      </if>
+      <if test="clazzName != null" >
+        #{clazzName,jdbcType=VARCHAR},
+      </if>
+      <if test="clazzBrief != null" >
+        #{clazzBrief,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateClazz" parameterType="edu.znzz.cg.entity.SysClazz" >
+    update sys_clazz
+    <set >
+      <if test="clazzName != null" >
+        clazz_name = #{clazzName,jdbcType=VARCHAR},
+      </if>
+      <if test="clazzBrief != null" >
+        clazz_brief = #{clzzBrief,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where clazz_id = #{clazzId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllClazz" resultMap="BaseResultMap">
+  	select * from sys_clazz
+  </select>
+</mapper>
