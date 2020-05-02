@@ -1,5 +1,6 @@
 package edu.znzz.cg.entity;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -229,4 +230,15 @@ public class SysUser {
     public void setLoginDate(Date loginDate) {
         this.loginDate = loginDate;
     }
+
+	@Override
+	public String toString() {
+		return "SysUser [userId=" + userId + ", departId=" + departId + ", clazzId=" + clazzId + ", loginName="
+				+ loginName + ", userName=" + userName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", sex="
+				+ sex + ", avatar=" + avatar + ", password=" + password + ", salt=" + salt + ", idCard=" + idCard
+				+ ", address=" + address + ", status=" + status + ", delFlag=" + delFlag + ", loginIp=" + loginIp
+				+ ", loginDate=" + loginDate + ", depart=" + depart + ", clazz=" + clazz + ", roles=" + roles
+				+ ", roleIds=" + Arrays.toString(roleIds) + ", isAdmin=" + isAdmin + "]";
+	}
+   
 }

@@ -67,8 +67,6 @@ public class SysUserController {
 	@PostMapping("/addsave")
 	@ResponseBody
 	public AjaxResult saveuser(SysUser sysUser) {
-		
-		System.out.println(sysUser.toString());
 		SysUser user = sysUserMapper.checkLoginNameUnique(sysUser.getLoginName());
 		int checkLoginName = user != null? 1:0;
 		if(checkLoginName > 0) {
@@ -128,9 +126,6 @@ public class SysUserController {
 	//	if(1 != 0) {
 			PageHelper.startPage(1,20);
 			List<SysUser> userList = sysUserMapper.selectListByUser(sysuser);
-			for (int i = 0; i < userList.size(); i++) {
-				System.out.println(userList.get(i));
-			}
 			subData.setRows(userList);
 			subData.setTotal(new PageInfo<SysUser>(userList).getTotal());
 	//	}
@@ -224,5 +219,28 @@ public class SysUserController {
  		model.addAttribute("roles", rolesdisplay);
  		model.addAttribute("user", user);
 		return prefix + "/edit";
+	}
+	/**
+	 * 修改保存
+	 * @param sysUser
+	 * @return AjaxResult
+	 */
+	@PostMapping("/updatesave")
+	@ResponseBody
+	public AjaxResult updateSave(SysUser sysUser) {
+		System.out.println(sysUser.toString());
+		/** 修改后角色id*/
+		String roleId = sysUser.getRoleIds()[0];
+		/** 原本角色要删除   先获取 */
+		SysUser userorigin = sysUserMapper.selectByPrimaryKey(sysUser.getUserId());
+		String roleOrigin = userorigin.getRoleIds()[0];
+		try {
+			sysUserMapper.update(sysUser);
+			sysUserRoleMapper.deleteByPrimaryKey(new SysUserRoleKey(sysUser.getUserId(),roleOrigin));
+			sysUserRoleMapper.insert(new SysUserRoleKey(sysUser.getUserId(),roleId));
+		}catch(Exception e) {
+			return AjaxResult.error("服务器错误", null);
+		}
+		return AjaxResult.success(null, null);
 	}
 }

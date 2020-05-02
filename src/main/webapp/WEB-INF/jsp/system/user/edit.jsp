@@ -13,7 +13,8 @@
 <script src="${pageContext.request.contextPath}/static/ajax/libs/select2/select2.min.js"></script>
 <body>
     <div class="main-content">
-        <form id="form-user-add" class="form-horizontal">
+        <form id="form-user-edit" class="form-horizontal">
+        	<input name="userId" type="hidden" id="userId" value="${user.userId}"/>
             <h4 class="form-header h4">基本信息</h4>
             <div class="row">
             	<div class="col-sm-6">
@@ -31,7 +32,12 @@
                             <div class="input-group">
                             	<select id="depart" class="form-control" >
                             		<c:forEach items="${departs}" var="de">
-                            			<option value="${de.departId}">${de.departName}</option>
+                            			<c:if test="${user.departId == de.departId}">
+                            				<option value="${de.departId}"  selected>${de.departName}</option>
+                            			</c:if>
+                            			<c:if test="${user.departId != de.departId}">
+                            				<option value="${de.departId}" >${de.departName}</option>
+                            			</c:if>
                             		</c:forEach>
 								</select>
                             </div>
@@ -90,7 +96,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">用户态状：</label>
+                        <label class="col-sm-4 control-label">用户状态：</label>
                         <div class="col-sm-8">
                             <label class="toggle-switch switch-solid">
 	                            <input type="checkbox" id="status" checked>
@@ -107,9 +113,16 @@
                         <div class="col-xs-10">
                         
                           <c:forEach items="${roles}" var="roleitem">
-	                            <label  class="check-box">
-									<input name="role" type="radio"  value="${roleitem.roleId}" > ${roleitem.roleName}
-								</label>
+                          		<c:if test="${user.roles[0].roleId == roleitem.roleId}">
+		                            <label  class="check-box">
+										<input name="role" type="radio"  value="${roleitem.roleId}" checked="checked"> ${roleitem.roleName}
+									</label>
+								</c:if>
+								<c:if test="${user.roles[0].roleId != roleitem.roleId}">
+		                            <label  class="check-box">
+										<input name="role" type="radio"  value="${roleitem.roleId}"> ${roleitem.roleName}
+									</label>
+								</c:if>
 							</c:forEach>
                         </div>
                     </div>
@@ -127,7 +140,7 @@
 	<script>
 	    var prefix = "/stu_work_sys/system/user";
 	
-        $("#form-user-add").validate({
+        $("#form-user-edit").validate({
         	onkeyup: false,
         	rules:{
         		loginName:{
@@ -199,9 +212,9 @@
         });
         
         function submitHandler() {
-        	var checkform = $("#form-user-add").validate().form();
+        	var checkform = $("#form-user-edit").validate().form();
 	        if (checkform) {
-	        	var data = $("#form-user-add").serializeArray();
+	        	var data = $("#form-user-edit").serializeArray();
 	        	var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
 	        	var roleIds = $("input[name='role']:checked").val();
 	        	var clazzIds = $("#choseclazz option:selected").val();
@@ -211,7 +224,7 @@
 	        	data.push({"name": "clazzId", "value": clazzIds});
 	        	data.push({"name": "departId","value":departId});
 	        	$.ajax({
-	        		url:prefix + "/addsave",
+	        		url:prefix + "/updatesave",
 	        		type:"post",
 	        		dateType:"json",
 	        		data:data,
@@ -241,7 +254,7 @@
                 placeholder:"请选择班级",
                 allowClear: true,
                 data:datac
-            });
+            }).val("${user.clazzId}").trigger("change");
           
         });
     </script>

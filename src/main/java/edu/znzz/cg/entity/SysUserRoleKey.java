@@ -5,6 +5,7 @@ public class SysUserRoleKey {
 
     private String roleId;
 
+    
     public String getUserId() {
         return userId;
     }
@@ -20,4 +21,14 @@ public class SysUserRoleKey {
     public void setRoleId(String roleId) {
         this.roleId = roleId == null ? null : roleId.trim();
     }
+    public SysUserRoleKey() {
+    	
+    }
+	public SysUserRoleKey(String userId, String roleId) {
+		super();
+		this.userId = userId;
+		this.roleId = roleId;
+	}
+    
+    
 }
