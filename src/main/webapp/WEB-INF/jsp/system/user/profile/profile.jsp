@@ -65,7 +65,7 @@
                             <div class="tab-pane active" id="user_info">
                                 <form class="form-horizontal" id="form-user-edit">
                                     <!--隐藏ID-->
-                                    <input name="id" id="id" type="hidden">
+                                    <input name="userId" id="userId" value="${user.userId}" type="hidden">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">用户名称：</label>
                                         <div class="col-sm-10">
@@ -171,7 +171,7 @@
 					required:true,
 		            email:true,
 		            remote: {
-		                url:  "system/user/checkEmailUnique",
+		                url:  "${pageContext.request.contextPath}/system/user/checkEmailUnique",
 		                type: "post",
 		                dataType: "json",
 		                data: {
@@ -179,7 +179,7 @@
 		                        return $("#userId").val();
 		                    },
 		        			"email": function() {
-		                        return $("#email").val();
+		                        return $(".email").val();
 		                    }
 		                },
 		                dataFilter: function (data, type) {
@@ -225,9 +225,14 @@
 		});
 		
 		function submitUserInfo() {
-	 /**       if ($.validate.form()) {
-	        	$.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize());
-	        } */
+			var checkform = $("#form-user-edit").validate().form();
+			if(checkform){
+				var data = $('#form-user-edit').serialize();
+				submit("/stu_work_sys/system/user/profile/update","post","json",data,1);
+			}
+	    	   console.log();
+	        //	$.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize());
+	        
 	    }
 	    
 	    /*用户管理-修改密码*/
