@@ -220,25 +220,8 @@
 	        	data.push({"name": "roleIds", "value": roleIds});
 	        	data.push({"name": "clazzId", "value": clazzIds});
 	        	data.push({"name": "departId","value":departId});
-	        	$.ajax({
-	        		url:prefix + "/addsave",
-	        		type:"post",
-	        		dateType:"json",
-	        		data:data,
-	        		beforeSend:function(){
-	        			$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div>正在处理中，请稍后...</div>' });
-	        		},
-	        		success: function(result){
-	        			if(result.code == 200){
-	        				msgReload("保存成功,正在刷新数据请稍后……", "success");
-	        			}else if(result.code == 301){
-	        				 msg(result.msg,"warning");
-	        			}else{
-	        				msg(result.msg,"error");
-	        			}
-	        			closeblock();
-	        		}
-	        	})
+	        	var url = prefix + "/addsave";
+	        	submit(url,"post","json",data,1);
 	        }
 	    }
 

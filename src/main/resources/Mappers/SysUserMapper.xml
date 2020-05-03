@@ -275,10 +275,10 @@
   		and u.address like concat('%',#{address},'%')
   	</if>
   	<if test="departId != null and departId != ''">
-			and (u.depart_id = #{departId} OR u.depart_id IN ( SELECT t.depart_id FROM sys_depart t WHERE FIND_IN_SET (#{departId},ancestors) ))
+			and (u.depart_id = #{departId})
 	</if>
 	<if test="clazzId != null and clazzId != ''">
-			and (c.clazz_id = #{clazzId} OR c.clazz_id IN ( SELECT b.clazz_id FROM sys_clazz b WHERE FIND_IN_SET (#{clazzId},ancestors) ))
+			and (c.clazz_id = #{clazzId} )
 	</if>
   </select>
   

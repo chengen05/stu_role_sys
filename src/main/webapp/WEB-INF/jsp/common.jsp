@@ -34,4 +34,4 @@
 <script src="${pageContext.request.contextPath}/static/ajax/libs/jquery-layout/jquery.layout-latest.js"></script>
 <script src="${pageContext.request.contextPath}/static/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
 <!--  自定义的一些工具 -->
-<script src="${pageContext.request.contextPath}/static/customize/msg-tool.js"></script>
+<script src="${pageContext.request.contextPath}/static/customize/tool.js"></script>

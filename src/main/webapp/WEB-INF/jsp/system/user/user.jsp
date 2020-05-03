@@ -23,10 +23,20 @@
 								<li>
 									手机号码：<input type="text" name="phoneNumber"/>
 								</li>
+								
+								<li>学院:<select name="departId">
+											<option value="" selected></option>
+											<c:forEach items="${departs}" var="de">
+                            					<option value="${de.departId}">${de.departName}</option>
+                            				</c:forEach>
+												
+										</select>
+								</li>
 								<li>
 									用户状态：<select name="status">
 										<option value="">所有</option>
-									
+										<option value="0">正常</option>
+										<option value="1">停用</option>
 									</select>
 								</li>
 								<li>
@@ -42,10 +52,7 @@
 		        	<a class="btn btn-success" onclick="add()" shiro:hasPermission="system:user:add">
 		                <i class="fa fa-plus"></i> 新增
 		            </a>
-		             <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" shiro:hasPermission="system:user:edit">
-			            <i class="fa fa-edit"></i> 修改
-			        </a>
-		            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:user:remove">
+		            <a class="btn btn-danger multiple" onclick="removeAll()" shiro:hasPermission="system:user:remove">
 		                <i class="fa fa-remove"></i> 删除
 		            </a>
 		            <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:user:import">
@@ -148,6 +155,24 @@
 		}
 		
 	}
-	
+
+	 /** 批量删除信息 */
+     function removeAll() {
+		var rows = $("#bootstrap-table").bootstrapTable("getAllSelections");
+		if (rows.length == 0) {
+			msg("请至少选择一条记录","warning");
+			return;
+		}
+		layer.confirm("确认要删除选中的" + rows.length + "条数据吗?",{icon:3,title:"系统提示",btn:["确定","取消"]}, function(index) {
+			var url = "/stu_work_sys/system/user/remove";
+			var rowid = $.map(rows,function(item){
+				return item.userId;
+			}) ;
+			rowid = {"ids":rowid.join()};
+			layer.close(index);
+			submit(url, "post", "json", rowid,0);
+		}); 
+		
+    }
 	</script>
 </html>

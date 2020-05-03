@@ -56,7 +56,9 @@ public class SysUserController {
 	 * 
 	 */
 	@RequestMapping()
-	public String user() {
+	public String user(Model model) {
+		List<SysDepart> departs = sysDepartMapper.selectAllDepart();
+		model.addAttribute("departs", departs);
 		return prefix + "/user";
 	}
 	/**
@@ -228,12 +230,11 @@ public class SysUserController {
 	@PostMapping("/updatesave")
 	@ResponseBody
 	public AjaxResult updateSave(SysUser sysUser) {
-		System.out.println(sysUser.toString());
 		/** 修改后角色id*/
 		String roleId = sysUser.getRoleIds()[0];
 		/** 原本角色要删除   先获取 */
 		SysUser userorigin = sysUserMapper.selectByPrimaryKey(sysUser.getUserId());
-		String roleOrigin = userorigin.getRoleIds()[0];
+		String roleOrigin = userorigin.getRoles().get(0).getRoleId();
 		try {
 			sysUserMapper.update(sysUser);
 			sysUserRoleMapper.deleteByPrimaryKey(new SysUserRoleKey(sysUser.getUserId(),roleOrigin));
@@ -241,6 +242,17 @@ public class SysUserController {
 		}catch(Exception e) {
 			return AjaxResult.error("服务器错误", null);
 		}
+		return AjaxResult.success(null, null);
+	}
+	/**
+	 * 删除用户
+	 * @param ids
+	 * @return AjaxResult
+	 */
+	@PostMapping("/remove")
+	@ResponseBody
+	public AjaxResult remove(String ids) {
+		System.out.println("ids" + ids);
 		return AjaxResult.success(null, null);
 	}
 }

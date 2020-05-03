@@ -68,7 +68,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录账号：</label>
                         <div class="col-sm-8">
-                            <input name="loginName" placeholder="请输入登录账号" class="form-control" type="text" maxlength="30" value="${user.loginName}"required>
+                            <input name="loginName" placeholder="请输入登录账号" class="form-control" type="text" maxlength="30" value="${user.loginName}"readonly>
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,12 @@
                         <label class="col-sm-4 control-label">用户状态：</label>
                         <div class="col-sm-8">
                             <label class="toggle-switch switch-solid">
-	                            <input type="checkbox" id="status" checked>
+                            <c:if test="${user.status == 0 }">
+                            	 <input type="checkbox" id="status" checked>
+                            </c:if>
+	                          <c:if test="${user.status == 1 }">
+	                          		<input type="checkbox" id="status">
+	                          </c:if>
 	                            <span></span>
 	                        </label>
                         </div>
@@ -223,25 +228,8 @@
 	        	data.push({"name": "roleIds", "value": roleIds});
 	        	data.push({"name": "clazzId", "value": clazzIds});
 	        	data.push({"name": "departId","value":departId});
-	        	$.ajax({
-	        		url:prefix + "/updatesave",
-	        		type:"post",
-	        		dateType:"json",
-	        		data:data,
-	        		beforeSend:function(){
-	        			$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div>正在处理中，请稍后...</div>' });
-	        		},
-	        		success: function(result){
-	        			if(result.code == 200){
-	        				msgReload("保存成功,正在刷新数据请稍后……", "success");
-	        			}else if(result.code == 301){
-	        				 msg(result.msg,"warning");
-	        			}else{
-	        				msg(result.msg,"error");
-	        			}
-	        			closeblock();
-	        		}
-	        	})
+	        	var url = prefix + "/updatesave";
+	        	submit(url,"post","json",data,1);
 	        }
 	    }
 

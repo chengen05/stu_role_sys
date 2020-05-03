@@ -70,3 +70,34 @@
 			});
 			layer.full(index);
 		}
+		
+		/** ajax提交 various 判断类型，1重新加载父窗体，0 重新加载表格*/
+		function submit(url,type,dataType,data,various){
+			
+			$.ajax({
+        		url: url,
+        		type: type,
+        		dateType: dataType,
+        		data:data,
+        		beforeSend:function(){
+        			$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div>正在处理中，请稍后...</div>' });
+        		},
+        		success: function(result){
+        			if(result.code == 200){
+        				if(various == 1){
+        					msgReload("成功,正在刷新数据请稍后……", "success");
+        				}else{
+        					msg("成功,正在刷新数据....","success");
+        				}
+        			}else if(result.code == 301){
+        				 msg(result.msg,"warning");
+        			}else{
+        				msg(result.msg,"error");
+        			}
+        			closeblock();
+        			if(various != 1){
+        				location.reload();
+        			}
+        		}
+        	});
+		}
