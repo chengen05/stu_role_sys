@@ -30,7 +30,7 @@
             	</li>
             	<li>
             		<div class="user-panel">
-            			<a class="menuItem" title="个人中心" href="javasript:changeiframe('system/user/profile')"> 
+            			<a class="menuItem" title="个人中心" href="javascript:changeiframe('system/user/profile');"> 
             				
 					        <div class="pull-left image">
 					        <c:if test="${empty user.avatar}">
@@ -135,7 +135,7 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li class="mt5">
-								<a href="/system/user/profile" class="menuItem">
+								<a href="javascript:changeiframe('system/user/profile');" class="menuItem">
 								<i class="fa fa-user"></i> 个人中心</a>
 							</li>
 							<li>

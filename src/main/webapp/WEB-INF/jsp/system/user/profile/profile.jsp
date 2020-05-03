@@ -9,7 +9,7 @@
 <title>个人信息</title>
 </head>
 <body class="gray-bg" style="font: 14px Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif !important;">
-    <input id="userId" name="userId" type="hidden" th:value="${user.userId}" />
+    <input id="userId" name="userId" type="hidden" value="${user.userId}" />
     <section class="section-content">
     <div class="row">
         <div class="col-sm-3 pr5">
@@ -19,29 +19,30 @@
                 </div>
                 <div class="ibox-content">
                     <div class="text-center">
-                        <p><img class="img-circle img-lg" th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}"></p>
+                        <p><img class="img-circle img-lg" src="${user.avatar}"></p>
                         <p><a href="javascript:avatar()">修改头像</a></p>
                     </div>
                     <ul class="list-group list-group-striped">
                         <li class="list-group-item"><i class="fa fa-user"></i>
                             <b class="font-noraml">登录名称：</b>
-                            <p class="pull-right">[[${user.loginName}]]</p>
+                            <p class="pull-right">${user.loginName}</p>
+                        </li>
+                          <li class="list-group-item"><i class="fa fa-group"></i>
+                            <b  class="font-noraml">所属学院：</b>
+                            <p class="pull-right" >${depart}</p>
+                        </li>
+                          <li class="list-group-item"><i class="fa fa-group"></i>
+                            <b  class="font-noraml">所属班级：</b>
+                            <p class="pull-right" >${clazz}</p>
                         </li>
                         <li class="list-group-item"><i class="fa fa-phone"></i>
                             <b  class="font-noraml">手机号码：</b>
-                            <p class="pull-right">[[${user.phonenumber}]]</p>
+                            <p class="pull-right">${user.phoneNumber}</p>
                         </li>
-                        <li class="list-group-item"><i class="fa fa-group"></i>
-                            <b  class="font-noraml">所属部门：</b>
-                            <p class="pull-right" >[[${user.dept?.deptName}]] / [[${#strings.defaultString(postGroup,'无岗位')}]]</p>
-                        </li>
+                      
                         <li class="list-group-item"><i class="fa fa-envelope-o"></i>
                             <b  class="font-noraml">邮箱地址：</b>
-                            <p class="pull-right" >[[${user.email}]]</p>
-                        </li>
-                        <li class="list-group-item"><i class="fa fa-calendar"></i>
-                            <b  class="font-noraml">创建时间：</b>
-                            <p class="pull-right" >[[${#dates.format(user.createTime, 'yyyy-MM-dd')}]]</p>
+                            <p class="pull-right" >${user.email}</p>
                         </li>
                     </ul>
                 </div>
@@ -61,37 +62,47 @@
                         </ul>
                         <div class="tab-content">
                             <!--用户信息-->
-                            <div class="tab-pane active" id="user_info" th:object="${user}">
+                            <div class="tab-pane active" id="user_info">
                                 <form class="form-horizontal" id="form-user-edit">
                                     <!--隐藏ID-->
                                     <input name="id" id="id" type="hidden">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">用户名称：</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="userName" th:field="*{userName}" placeholder="请输入用户名称">
+                                            <input type="text" class="form-control" name="userName" value="${user.userName}" placeholder="请输入用户名称">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">手机号码：</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="phonenumber" maxlength="11" th:field="*{phonenumber}" placeholder="请输入手机号码">
+                                            <input type="text" class="form-control" name="phoneNumber" maxlength="11" value="${user.phoneNumber}" placeholder="请输入手机号码">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">邮箱：</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" name="email" th:field="*{email}" placeholder="请输入邮箱">
+                                            <input type="text" class="form-control" name="email" value="${user.email}" placeholder="请输入邮箱">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">性别：</label>
                                         <div class="col-sm-10">
                                             <div class="radio-box">
-												<input type="radio" id="radio1" th:field="*{sex}" name="sex" value="0">
+                                            	<c:if test="${user.sex == '0'}">
+                                            		<input type="radio" id="radio1" checked="checked"  name="sex" value="0">
+                                            	</c:if>
+												<c:if test="${user.sex != '0'}">
+													<input type="radio" id="radio1"  name="sex" value="0">
+												</c:if>
 												<label for="radio1">男</label>
 											</div>
 											<div class="radio-box">
-												<input type="radio" id="radio2" th:field="*{sex}" name="sex" value="1">
+												<c:if test="${user.sex == '1'}">
+													<input type="radio" id="radio2" checked="checked" name="sex" value="1">
+												</c:if>
+												<c:if test="${user.sex != '1'}">
+													<input type="radio" id="radio2"  name="sex" value="1">
+												</c:if>
 												<label for="radio2">女</label>
 											</div>
                                         </div>
@@ -142,12 +153,11 @@
     </div>
 	</section>
     
-    <th:block th:include="include :: footer" />
     <script>
 	    /*用户管理-头像*/
 	    function avatar() {
-	        var url = ctx + 'system/user/profile/avatar';
-	        $.modal.open("修改头像", url);
+	        var url = 'system/user/profile/avatar';
+	       open("修改头像", url);
 	    }
 	    
 	    /*用户信息-修改*/
@@ -161,7 +171,7 @@
 					required:true,
 		            email:true,
 		            remote: {
-		                url: ctx + "system/user/checkEmailUnique",
+		                url:  "system/user/checkEmailUnique",
 		                type: "post",
 		                dataType: "json",
 		                data: {
@@ -169,11 +179,11 @@
 		                        return $("#userId").val();
 		                    },
 		        			"email": function() {
-		                        return $.common.trim($("#email").val());
+		                        return $("#email").val();
 		                    }
 		                },
 		                dataFilter: function (data, type) {
-		                	return $.validate.unique(data);
+		                	return data;
 		                }
 		            }
 				},
@@ -181,7 +191,7 @@
 					required:true,
 					isPhone:true,
 		            remote: {
-		                url: ctx + "system/user/checkPhoneUnique",
+		                url: "system/user/checkPhoneUnique",
 		                type: "post",
 		                dataType: "json",
 		                data: {
@@ -189,11 +199,11 @@
 		                		return $("#userId").val();
 		                    },
 		        			"phonenumber": function() {
-		                        return $.common.trim($("#phonenumber").val());
+		                        return $("#phonenumber").val();
 		                    }
 		                },
 		                dataFilter: function (data, type) {
-		                	return $.validate.unique(data);
+		                	return data;
 		                }
 		            }
 				},
@@ -215,9 +225,9 @@
 		});
 		
 		function submitUserInfo() {
-	        if ($.validate.form()) {
+	 /**       if ($.validate.form()) {
 	        	$.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize());
-	        }
+	        } */
 	    }
 	    
 	    /*用户管理-修改密码*/
@@ -227,7 +237,7 @@
 				oldPassword:{
 					required:true,
 					remote: {
-	                    url: ctx + "system/user/profile/checkPassword",
+	                    url: "system/user/profile/checkPassword",
 	                    type: "get",
 	                    dataType: "json",
 	                    data: {
@@ -268,7 +278,7 @@
 		
 		function submitChangPassword () {
 	        if ($.validate.form("form-user-resetPwd")) {
-	        	$.operate.saveModal(ctx + "system/user/profile/resetPwd", $('#form-user-resetPwd').serialize());
+	        //	$.operate.saveModal(ctx + "system/user/profile/resetPwd", $('#form-user-resetPwd').serialize());
 	        }
 	    }
 	</script>
