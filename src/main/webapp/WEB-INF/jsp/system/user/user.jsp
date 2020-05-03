@@ -7,7 +7,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户管理</title>
-<script src="${pageContext.request.contextPath}/static/customize/table-custom.js"></script>
 </head>
 <body>
 		<div class="ui-layout-center">
@@ -55,10 +54,10 @@
 		            <a class="btn btn-danger multiple" onclick="removeAll()" shiro:hasPermission="system:user:remove">
 		                <i class="fa fa-remove"></i> 删除
 		            </a>
-		            <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:user:import">
+		            <a class="btn btn-info" onclick="#" shiro:hasPermission="system:user:import">
 			            <i class="fa fa-upload"></i> 导入
 			        </a>
-		            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:user:export">
+		            <a class="btn btn-warning" onclick="#" shiro:hasPermission="system:user:export">
 			            <i class="fa fa-download"></i> 导出
 			        </a>
 		        </div>
@@ -118,7 +117,7 @@
 			        formatter: function(value, row, index) {
 			             var actions = [];
 			             actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="edit(\'' + row.userId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-			             actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="$.operate.remove(\'' + row.userId + '\')"><i class="fa fa-remove"></i>删除</a> ');
+			             actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="remove(\'' + row.userId + '\')"><i class="fa fa-remove"></i>删除</a> ');
 			             actions.push('<a class="btn btn-info btn-xs " href="javascript:void(0)" onclick="resetPwd(\'' + row.userId + '\')"><i class="fa fa-key"></i>重置</a>');
 			             return actions.join('');
 			        }
@@ -174,5 +173,33 @@
 		}); 
 		
     }
+	 function remove(id){
+		 layer.confirm("确认要删除选中的这条数据吗?",{icon:3,title:"系统提示",btn:["确定","取消"]}, function(index) {
+				var url = "/stu_work_sys/system/user/remove";
+				rowid = {"ids":id};
+				layer.close(index);
+				submit(url, "post", "json", rowid,0);
+			}); 
+	 }
+	 
+	 function resetPwd(userId){
+		 layer.confirm("确认重置此用户密码吗？",{icon:3,title:"系统提示",btn:["确定","取消"]}, function(index) {
+				var url = "/stu_work_sys/system/user/resetPwd";
+					$.ajax({
+						url: url,
+						dataType:"json",
+						method:"post",
+						data:{"userid":userId},
+						success: function(result){
+							if(result.code == 200){
+								msg("重置成功","success");
+							}else{
+								msg("重置失败","error");
+							}
+						}
+					});
+				});
+		}
+	
 	</script>
 </html>

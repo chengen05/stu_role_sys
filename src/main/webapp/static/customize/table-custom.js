@@ -26,7 +26,7 @@ $.extend({
                     showRefresh: true,
                     showColumns: true,
                     showToggle: true,
-                    showExport: false,
+                    showExport: true,
                     clickToSelect: false,
                     rememberSelected: false,
         		    fixedColumns: false,
@@ -67,7 +67,7 @@ $.extend({
                     showRefresh: options.showRefresh,                   // 是否显示刷新按钮
                     showColumns: options.showColumns,                   // 是否显示隐藏某列下拉框
                     showToggle: options.showToggle,                     // 是否显示详细视图和列表视图的切换按钮
-                    showExport: options.showExport,                     // 是否支持导出文件
+                    showExport: true,                     // 是否支持导出文件
                     uniqueId: options.uniqueId,                         // 唯 一的标识符
                     clickToSelect: options.clickToSelect,				// 是否启用点击选中行
                     detailView: options.detailView,                     // 是否启用显示细节视图

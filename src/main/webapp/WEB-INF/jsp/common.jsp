@@ -35,3 +35,4 @@
 <script src="${pageContext.request.contextPath}/static/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
 <!--  自定义的一些工具 -->
 <script src="${pageContext.request.contextPath}/static/customize/tool.js"></script>
+<script src="${pageContext.request.contextPath}/static/customize/table-custom.js"></script>

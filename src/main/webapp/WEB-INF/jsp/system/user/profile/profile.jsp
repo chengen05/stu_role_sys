@@ -1,9 +1,13 @@
-<!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="utf-8"%>
+<%@ include file="../../../common.jsp"%> 
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-	<th:block th:include="include :: header('用户个人信息')" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>个人信息</title>
 </head>
-
 <body class="gray-bg" style="font: 14px Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif !important;">
     <input id="userId" name="userId" type="hidden" th:value="${user.userId}" />
     <section class="section-content">

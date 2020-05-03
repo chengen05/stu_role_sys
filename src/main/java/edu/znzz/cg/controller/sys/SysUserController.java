@@ -252,7 +252,39 @@ public class SysUserController {
 	@PostMapping("/remove")
 	@ResponseBody
 	public AjaxResult remove(String ids) {
-		System.out.println("ids" + ids);
+		try {
+			String[] idList = ids.split(",");
+			if(idList.length >= 0 ) {
+				for (String string : idList) {
+					SysUser sysUser = new SysUser();
+					sysUser.setUserId(string);
+					sysUser.setDelFlag("2");
+					sysUserMapper.update(sysUser);
+				}
+			}
+		}catch (Exception e) {
+			return AjaxResult.error("服务器错误", null);
+		}
+		return AjaxResult.success(null, null);
+	}
+	/**
+	 * 重置密码
+	 * @param userid
+	 * @return AjaxResult
+	 */
+	@PostMapping("/resetPwd")
+	@ResponseBody
+	public AjaxResult resetPwd(String userid) {
+		if(userid == null || userid == "")
+		{
+			return AjaxResult.warn("错误", null);
+		}
+		/** 获取盐值 */
+		SysUser sysUser = sysUserMapper.selectByPrimaryKey(userid);
+		String salt = sysUser.getSalt();
+		String newPwd = PasswordTool.encryptPassword("123456", salt);
+		sysUser.setPassword(newPwd);
+		sysUserMapper.update(sysUser);
 		return AjaxResult.success(null, null);
 	}
 }

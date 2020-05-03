@@ -30,7 +30,7 @@
             	</li>
             	<li>
             		<div class="user-panel">
-            			<a class="menuItem" title="个人中心" href="/system/user/profile"> 
+            			<a class="menuItem" title="个人中心" href="javasript:changeiframe('system/user/profile')"> 
             				
 					        <div class="pull-left image">
 					        <c:if test="${empty user.avatar}">
