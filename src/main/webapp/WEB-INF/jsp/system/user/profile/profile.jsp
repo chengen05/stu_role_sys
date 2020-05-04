@@ -122,7 +122,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">旧密码：</label>
                                         <div class="col-sm-10">
-                                            <input type="password" class="form-control" name="oldPassword" placeholder="请输入旧密码">
+                                            <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="请输入旧密码">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -154,6 +154,7 @@
 	</section>
     
     <script>
+    var prefix = "/stu_work_sys/system/user/profile";
 	    /*用户管理-头像*/
 	    function avatar() {
 	        var url = 'system/user/profile/avatar';
@@ -171,7 +172,7 @@
 					required:true,
 		            email:true,
 		            remote: {
-		                url:  "${pageContext.request.contextPath}/system/user/checkEmailUnique",
+		                url:  prefix + "/checkEmailUnique",
 		                type: "post",
 		                dataType: "json",
 		                data: {
@@ -191,7 +192,7 @@
 					required:true,
 					isPhone:true,
 		            remote: {
-		                url: "system/user/checkPhoneUnique",
+		                url: prefix + "/checkPhoneUnique",
 		                type: "post",
 		                dataType: "json",
 		                data: {
@@ -228,7 +229,7 @@
 			var checkform = $("#form-user-edit").validate().form();
 			if(checkform){
 				var data = $('#form-user-edit').serialize();
-				submit("/stu_work_sys/system/user/profile/update","post","json",data,1);
+				submit(prefix + "/update","post","json",data,1);
 			}
 	    	   console.log();
 	        //	$.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize());
@@ -242,12 +243,12 @@
 				oldPassword:{
 					required:true,
 					remote: {
-	                    url: "system/user/profile/checkPassword",
+	                    url: "/checkPassword",
 	                    type: "get",
 	                    dataType: "json",
 	                    data: {
-	                        password: function() {
-	                            return $("input[name='oldPassword']").val();
+	                        oldPassword: function() {
+	                            return $("#oldPassword").val();
 	                        }
 	                    }
 	                }
@@ -282,8 +283,26 @@
 		});
 		
 		function submitChangPassword () {
-	        if ($.validate.form("form-user-resetPwd")) {
-	        //	$.operate.saveModal(ctx + "system/user/profile/resetPwd", $('#form-user-resetPwd').serialize());
+			var check = $("#form-user-resetPwd").validate().form();
+	        if (check) {
+	        	var url = prefix + "/resetPwd";
+	        	$.ajax({
+					url: url,
+					dataType:"json",
+					method:"post",
+					data:$("#form-user-resetPwd").serializeArray(),
+					success: function(result){
+						if(result.code == 200){
+							layer.confirm('修改成功...请重新登录', {icon: 1, title:'提示',btn:["确定"]}, function(index){
+							    layer.close(index);
+							    window.location.href="/stu_work_sys/logout";
+							});
+							
+						}else{
+							msg("修改失败","error");
+						}
+					}
+				});	
 	        }
 	    }
 	</script>
