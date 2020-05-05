@@ -181,4 +181,20 @@
 			 left join sys_user_role ur on rm.role_id = ur.role_id
 		where ur.user_id = #{userId} order by order_num 
   </select>
+
+  <select id="selectMenusByMenu" parameterType="edu.znzz.cg.entity.SysMenu" resultMap="BaseResultMap">
+  		select 
+		<include refid="Base_Column_List"/> 
+		from  sys_menu
+		where 0 = 0
+		<where>
+			<if test="menuName != null and menuName != ''">
+				AND menu_name like concat('%', #{menuName}, '%')
+			</if>
+			<if test="visible != null and visible != ''">
+				AND visible = #{visible}
+			</if>
+		</where>
+		order by parent_id, order_num
+	</select>
 </mapper>

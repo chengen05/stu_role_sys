@@ -61,4 +61,11 @@ public interface SysMenuService {
      * @return List<SysMenu>
      */
     List<SysMenu> selectMenusByUserId(String userId);
+    
+    /**
+     * 根据sysMenu查询菜单
+     * @param sysMenu
+     * @return List<SysMenu>
+     */
+    List<SysMenu> selectMenusByMenu(SysMenu sysMenu);
 }

@@ -58,8 +58,8 @@
               		<a href="#"><i class="fa fa-desktop"></i><span class="nav-label"> &nbsp;系统功能</span><span class="fa arrow"></span></a>
                	 	<ul class="nav nav-second-level">
                	 		<li> <a class="menuItem" href="javascript:changeiframe('system/user');">用户管理</a></li>
-               	 		<li> <a class="menuItem" href="">角色管理</a></li>
-               	 		<li> <a class="menuItem" href="">菜单管理</a></li>
+               	 		<li> <a class="menuItem" href="javascript:changeiframe('system/role')">角色管理</a></li>
+               	 		<li> <a class="menuItem" href="javascript:changeiframe('system/menu')">菜单管理</a></li>
                	 		<li> <a class="menuItem" href="">院系管理</a></li>
                	 		<li> <a class="menuItem" href="">学生管理</a></li>
                	 	</ul>

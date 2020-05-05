@@ -136,4 +136,18 @@
   <select id="checkRoleKeyUnique" parameterType="String" resultType="Integer">
   	select count(*) from sys_role where role_key = #{roleKey}
   </select>
+  <select id="selectByRole" parameterType="edu.znzz.cg.entity.SysRole" resultMap="BaseResultMap">
+  	 select <include refid="Base_Column_List"/> from sys_role
+		where 0 = 0
+		<if test="roleName != null and roleName != ''">
+			AND role_name like concat('%', #{roleName}, '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND status = #{status}
+		</if>
+		<if test="roleKey != null and roleKey != ''">
+			AND role_key like concat('%', #{roleKey}, '%')
+		</if>
+		order by order_num desc
+  </select>
 </mapper>

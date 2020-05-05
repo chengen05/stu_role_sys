@@ -54,10 +54,10 @@
 		            <a class="btn btn-danger multiple" onclick="removeAll()" shiro:hasPermission="system:user:remove">
 		                <i class="fa fa-remove"></i> 删除
 		            </a>
-		            <a class="btn btn-info" onclick="#" shiro:hasPermission="system:user:import">
+		            <a class="btn btn-info" onclick="" shiro:hasPermission="system:user:import">
 			            <i class="fa fa-upload"></i> 导入
 			        </a>
-		            <a class="btn btn-warning" onclick="#" shiro:hasPermission="system:user:export">
+		            <a class="btn btn-warning" onclick="" shiro:hasPermission="system:user:export">
 			            <i class="fa fa-download"></i> 导出
 			        </a>
 		        </div>

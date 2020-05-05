@@ -53,4 +53,9 @@ public class SysRoleServiceImple implements SysRoleService{
 		
 		return sysRoleMapper.checkRoleKeyUnique(roleKey);
 	}
+
+	public List<SysRole> selectByRole(SysRole sysRole) {
+		
+		return sysRoleMapper.selectByRole(sysRole);
+	}
 }

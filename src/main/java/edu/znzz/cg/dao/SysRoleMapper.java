@@ -46,5 +46,11 @@ public interface SysRoleMapper {
      * @return
      */
     int checkRoleKeyUnique(String roleKey);
+    /**
+     * 根据role条件查询
+     * @param sysRole
+     * @return list
+     */
+    List<SysRole> selectByRole(SysRole sysRole);
  
 }

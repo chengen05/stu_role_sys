@@ -59,4 +59,10 @@ public interface SysMenuMapper {
      * @return List<SysMenu>
      */
     List<SysMenu> selectMenusByUserId(String userId);
+    /**
+     * 根据SysMenu查询菜单
+     * @param SysMenu
+     * @return List<SysMenu>
+     */
+    List<SysMenu> selectMenusByMenu(SysMenu sysMenu);
 }

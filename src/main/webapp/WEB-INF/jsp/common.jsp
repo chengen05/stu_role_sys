@@ -8,8 +8,8 @@
 <link href="${pageContext.request.contextPath}/static/ajax/libs/jquery-layout/jquery.layout-latest.css" rel="stylesheet"/>
 <link href="${pageContext.request.contextPath}/static/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet"/>
 <link href="${pageContext.request.contextPath}/static/ruoyi/css/ry-ui.css" rel="stylesheet"/>
-
-
+<!-- icheck查件样式 -->
+<link href="${pageContext.request.contextPath}/static/css/orange.css" rel="stylesheet"/>
 <script src="${pageContext.request.contextPath}/static/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
 <!-- bootstrap-table 表格插件 -->

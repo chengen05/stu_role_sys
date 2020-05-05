@@ -147,5 +147,63 @@ $.extend({
             	return rowIds;
             },
       
+        },
+        // 表格树封装处理
+        treeTable: {
+            // 初始化表格
+            init: function(options) {
+            	var defaults = {
+            		id: "bootstrap-tree-table",
+                    type: 1, // 0 代表bootstrapTable 1代表bootstrapTreeTable
+        		    height: 0,
+        		    rootIdValue: null,
+        		    ajaxParams: {},
+        		    toolbar: "toolbar",
+        		    striped: false,
+        		    expandColumn: 1,
+        		    showSearch: true,
+        		    showRefresh: true,
+        			showColumns: true,
+        			expandAll: true,
+        			expandFirst: true
+        		};
+            	var options = $.extend(defaults, options);
+                $.table._option = options;
+                $.bttTable = $('#' + options.id).bootstrapTreeTable({
+                	code: options.code,                                 // 用于设置父子关系
+        		    parentCode: options.parentCode,                     // 用于设置父子关系
+        	    	type: 'post',                                        // 请求方式（*）
+        	        url: options.url,                                   // 请求后台的URL（*）
+        	        ajaxParams: options.ajaxParams,                     // 请求数据的ajax的data属性
+        	        rootIdValue: options.rootIdValue,                   // 设置指定根节点id值
+        	        height: options.height,                             // 表格树的高度
+        			expandColumn: options.expandColumn,                 // 在哪一列上面显示展开按钮
+        			striped: options.striped,                           // 是否显示行间隔色
+        			bordered: true,                                     // 是否显示边框
+        			toolbar: '#' + options.toolbar,                     // 指定工作栏
+        			showSearch: options.showSearch,                     // 是否显示检索信息
+        			showRefresh: options.showRefresh,                   // 是否显示刷新按钮
+        			showColumns: options.showColumns,                   // 是否显示隐藏某列下拉框
+        			expandAll: options.expandAll,                       // 是否全部展开
+        			expandFirst: options.expandFirst,                   // 是否默认第一级展开--expandAll为false时生效
+        	        columns: options.columns,                           // 显示列信息（*）
+        	  
+        	    });
+            },
+            // 条件查询
+            search: function(formId) {
+            	var currentId = formId;
+            	console.log("formId:" + formId);
+            	var json = {}
+            	$.each($("#" + formId).serializeArray(), function(i, field) {
+               	 json[field.name] = field.value;
+                });
+                $.bttTable.bootstrapTreeTable('refresh', json);
+            },
+            // 刷新
+            refresh: function() {
+            	$.bttTable.bootstrapTreeTable('refresh');
+            },
+          
         }
 });
