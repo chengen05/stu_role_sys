@@ -18,10 +18,14 @@
   	select menu_id from sys_role_menu where role_id = #{roleId,jdbcType=VARCHAR}
   </select>
   
-  <select id="batchRoleMenu">
+  <insert id="batchRoleMenu"  parameterType="edu.znzz.cg.entity.SysRoleMenuKey">
   	insert into sys_role_menu(role_id, menu_id) values
   	<foreach collection="list" index="index" item="item" separator=",">
   		(#{item.roleId},#{item.menuId})
   	</foreach>
+  </insert>
+  
+  <select id="selectCountRoleMenuByMenuId" parameterType="java.lang.String" resultType="int">
+  	select count(*) from sys_role_menu where menu_id = #{menuId,jdbcType=VARCHAR}
   </select>
 </mapper>

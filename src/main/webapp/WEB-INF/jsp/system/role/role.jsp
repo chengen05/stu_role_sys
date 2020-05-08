@@ -98,7 +98,7 @@
 		            align: 'center',
 		            formatter: function(value, row, index) {
 		                var actions = [];
-		                actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.roleId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+		                actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="edit(\'' + row.roleId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
 		                actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="authDataScope(\'' + row.roleId + '\')"><i class="fa fa-check-square-o"></i>数据权限</a> ');
 		                actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="authUser(\'' + row.roleId + '\')"><i class="fa fa-user"></i>分配用户</a> ');
 		                actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.roleId + '\')"><i class="fa fa-remove"></i>删除</a> ');
@@ -146,6 +146,24 @@
 		/* 弹出添加模块*/
 		function add(){
 			open("添加角色",prefix + "/add");
+		}
+		
+		function edit(id){
+			if(id != null && id != undefined){
+				open("修改系统角色",prefix + "/update?id="+id+"");
+			}else{
+				 msg("请选择一条记录","warning");
+				 return;
+			}
+		}
+		
+		function remove(id){
+			 layer.confirm("确认要删除选中的这条数据吗?",{icon:3,title:"系统提示",btn:["确定","取消"]}, function(index) {
+					var url = prefix + "/remove";
+					rowid = {"id":id};
+					layer.close(index);
+					submit(url, "post", "json", rowid,1);
+				}); 
 		}
 	</script>
 </body>

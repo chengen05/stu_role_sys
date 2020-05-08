@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%@ include file="../../common.jsp"%> 
+ <%@ include file="../../common.jsp"%> 
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>系统菜单添加</title>
+<title>修改菜单</title>
+<!-- icon样式 -->
 <style type="text/css">
         .ico-list .fa{
             margin: 5px;
@@ -24,57 +24,73 @@
 </head>
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
-		<form class="form-horizontal m" id="form-menu-add">
-			<input id="treeId" name="parentId" type="hidden" value="${sysMenu.menuId}" />
+		<form class="form-horizontal m" id="form-menu-edit">
+			<input name="menuId"   type="hidden" value="${sysMenu.menuId }" />
+			<input  name="parentId" type="hidden" value="${sysMenu.parentId}" />
 			<div class="form-group">
 				<label class="col-sm-3 control-label ">上级菜单：</label>
 				<div class="col-sm-8">
 				    <div class="input-group">
-					    <input class="form-control" type="text"  id="treeName" readonly="readonly" value="${sysMenu.menuName}">
-				
+						<input class="form-control" type="text" id="treeName" readonly="readonly" value="${parentName == null ? '无' : parentName}">
+					    <span class="input-group-addon"><i class="fa fa-search"></i></span>
 				    </div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">菜单类型：</label>
 				<div class="col-sm-8">
-					<label class="radio-box"> <input type="radio" name="menuType"  value="M" /> 目录 </label> 
-					<label class="radio-box"> <input type="radio" name="menuType"  value="C" /> 菜单 </label> 
-					<label class="radio-box"> <input type="radio" name="menuType"  value="F" /> 按钮 </label>
+					<c:if test="${sysMenu.menuType == 'M' }">
+						<label class="radio-box"> <input type="radio" checked="checked" name="menuType" value="M" /> 目录 </label> 
+					</c:if>
+					<c:if test="${sysMenu.menuType != 'M' }">
+						<label class="radio-box"> <input type="radio"  name="menuType" value="M" /> 目录 </label> 
+					</c:if>
+					<c:if test="${sysMenu.menuType == 'C' }">
+						<label class="radio-box"> <input type="radio"  checked="checked" name="menuType" value="C" /> 菜单 </label> 
+					</c:if>
+					<c:if test="${sysMenu.menuType != 'C' }">
+						<label class="radio-box"> <input type="radio"  name="menuType" value="C" /> 菜单 </label> 
+					</c:if>
+					<c:if test="${sysMenu.menuType == 'F' }">
+						<label class="radio-box"> <input type="radio" checked="checked" name="menuType" value="F" /> 按钮 </label>
+					</c:if>
+					<c:if test="${sysMenu.menuType != 'F' }">
+						<label class="radio-box"> <input type="radio" name="menuType" value="F" /> 按钮 </label>
+					</c:if>	
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">菜单名称：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="menuName" id="menuName" required>
+					<input class="form-control" type="text" name="menuName" id="menuName" value="${sysMenu.menuName}" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">请求地址：</label>
 				<div class="col-sm-8">
-					<input id="url" name="url" class="form-control" type="text">
+					<input id="url" name="url" class="form-control" type="text" value="${sysMenu.url}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">权限标识：</label>
 				<div class="col-sm-8">
-					<input id="permsKey" name="permsKey" class="form-control" type="text">
-					<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 控制器中定义的权限标识，如：@RequiresPermissions("")</span>
+					<input id="perms" name="perms" class="form-control" type="text" value="${sysMenu.permsKey}">
+				    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 控制器中定义的权限标识，如：@RequiresPermissions("")</span>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">显示排序：</label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="orderNum" required>
+					<input class="form-control" type="text" name="orderNum" value="${sysMenu.orderNum}" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">图标：</label>
 				<div class="col-sm-8">
-					<input id="icon" name="icon" class="form-control" type="text" placeholder="选择图标" >
+					<input id="icon" name="icon" class="form-control" type="text" placeholder="选择图标" value="${sysMenu.icon}">
                     <div class="ms-parent" style="width: 100%;">
-                        <div class="icon-drop animated flipInX" style="display: none;max-height:200px;overflow-y:auto" >
-                           <div class="ico-list">
+                        <div class="icon-drop animated flipInX" style="display: none;max-height:200px;overflow-y:auto">
+                            <div class="ico-list">
 							     <i class="fa fa-address-book" aria-hidden="true"></i>
 							
 							     <i class="fa fa-address-book-o" aria-hidden="true"></i>
@@ -296,7 +312,7 @@
 							     <i class="fa fa-compass" aria-hidden="true"></i>
 							
 							     <i class="fa fa-copyright" aria-hidden="true"></i>
-							     </div>
+							   </div>
                         </div>
                     </div>
 				</div>
@@ -304,66 +320,41 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">菜单状态：</label>
 				<div class="col-sm-8">
-				    <div class="radio-box" >
-						<input type="radio" name="visible" checked value="0"> 显示
-						&nbsp;&nbsp;&nbsp;
-						<input type="radio" name="visible"  value="1"> 隐藏
-					
+					<div class="radio-box" >
+						<c:if test="${sysMenu.visible == 0 }">
+							<input type="radio" name="visible" checked="checked" value="0"> 显示
+							&nbsp;&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${sysMenu.visible != 0 }">
+							<input type="radio" name="visible" checked="checked" value="0"> 显示
+							&nbsp;&nbsp;&nbsp;
+						</c:if>
+						<c:if test="${sysMenu.visible == 1 }">
+							<input type="radio" name="visible" checked="checked"  value="1"> 隐藏
+						</c:if>
+						<c:if test="${sysMenu.visible != 1 }">
+							<input type="radio" name="visible"  value="1"> 隐藏
+						</c:if>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
-	  <div class="row">
+	    <div class="row">
         <div class="col-sm-offset-5 col-sm-10">
             <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
             <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
         </div>
     </div>
 	 <script>
-        var prefix = "/stu_work_sys/system/menu";
-        
-        window.onload = function(){
-        	
-        	$("input:radio").iCheck({
-        		radioClass :"iradio_minimal-orange"
-        	});
-        	$("input[name='icon']").focus(function() {
-                $(".icon-drop").show();
-             });
-         	$("#form-menu-add").click(function(event) {
-         	    var obj = event.srcElement || event.target;
-         	    if (!$(obj).is("input[name='icon']")) {
-         	    	$(".icon-drop").hide();
-         	    }
-         	});
-         	$(".icon-drop").find(".ico-list i").on("click", function() {
-         		$('#icon').val($(this).attr('class'));
-             }); 
-           	
-         	$('input[name="menuType"]').on("ifChecked", function(event){ 
-         		var menuType = $(event.target).val();
-         		if (menuType == "M") {
-                     $("#url").parents(".form-group").hide();
-                     $("#perms").parents(".form-group").hide();
-                     $("#icon").parents(".form-group").show();
-        
-                     $("input[name='visible']").parents(".form-group").show();
-                 } else if (menuType == "C") {
-                 	$("#url").parents(".form-group").show();
-                     $("#perms").parents(".form-group").show();
-                     $("#icon").parents(".form-group").show();
-                     $("input[name='visible']").parents(".form-group").show();
-                 } else if (menuType == "F") {
-                 	$("#url").parents(".form-group").hide();
-                     $("#perms").parents(".form-group").show();
-                     $("#icon").parents(".form-group").hide();
-                     $("input[name='visible']").parents(".form-group").hide();
-                 }
-         	});  
-        }
-        
-        $("#form-menu-add").validate({
+        var prefix =  "/stu_work_sys/system/menu";
+
+        $(function() {
+            var menuType = $('input[name="menuType"]:checked').val();
+            menuVisible(menuType);
+        });
+
+        $("#form-menu-edit").validate({
         	onkeyup: false,
         	rules:{
         		menuType:{
@@ -375,11 +366,14 @@
                         type: "post",
                         dataType: "json",
                         data: {
-                        	"parentId": function() {
+                        	"menuId": function() {
+                                return $("#menuId").val();
+                            },
+                            "parentId": function() {
 		                		return $("input[name='parentId']").val();
 		                    },
-                        	"menuName" : function() {
-                                return $("#menuName").val();
+                			"menuName": function() {
+                                return ("#menuName").val();
                             }
                         },
                         dataFilter: function(data, type) {
@@ -412,21 +406,61 @@
                 },
                 "url" :{
                 	remote:"链接重复"
-                }
+               	 }
             },
+            
             focusCleanup: true
         });
         
         function submitHandler() {
-	        	submit(prefix+"/addsave","post","json",$('#form-menu-add').serialize(),1);
+	  
+	           submit(prefix + "/editsave","post","json", $('#form-menu-edit').serialize(),1);
 	        
 	    }
-	
 
-     
-     
-		
-		
+        $(function() {
+            $("input[name='icon']").focus(function() {
+                $(".icon-drop").show();
+            });
+            $("#form-menu-edit").click(function(event) {
+                var obj = event.srcElement || event.target;
+                if (!$(obj).is("input[name='icon']")) {
+                    $(".icon-drop").hide();
+                }
+            });
+            $(".icon-drop").find(".ico-list i").on("click",
+            function() {
+                $('#icon').val($(this).attr('class'));
+            });
+            $('input').on('ifChecked',
+            function(event) {
+                var menuType = $(event.target).val();
+                menuVisible(menuType);
+            });
+        });
+
+        function menuVisible(menuType) {
+            if (menuType == "M") {
+                $("#url").parents(".form-group").hide();
+                $("#perms").parents(".form-group").hide();
+                $("#icon").parents(".form-group").show();
+                $("#target").parents(".form-group").hide();
+                $("input[name='visible']").parents(".form-group").show();
+            } else if (menuType == "C") {
+                $("#url").parents(".form-group").show();
+                $("#perms").parents(".form-group").show();
+                $("#icon").parents(".form-group").show();
+                $("#target").parents(".form-group").show();
+                $("input[name='visible']").parents(".form-group").show();
+            } else if (menuType == "F") {
+                $("#url").parents(".form-group").hide();
+                $("#perms").parents(".form-group").show();
+                $("#icon").parents(".form-group").hide();
+                $("#target").parents(".form-group").hide();
+                $("input[name='visible']").parents(".form-group").hide();
+            }
+        }
+
     </script>
 </body>
 </html>

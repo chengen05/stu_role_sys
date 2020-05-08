@@ -26,5 +26,10 @@ public interface SysRoleMenuMapper {
      */
     int batchRoleMenu(List<SysRoleMenuKey> roleMenuList);
 
-    
+    /**
+     * 查询菜单对角色的绑定次数
+     * @param menuId
+     * @return int
+     */
+    int selectCountRoleMenuByMenuId(String menuId);
 }

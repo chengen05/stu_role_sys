@@ -165,8 +165,10 @@
                     data: parms ? parms : options.ajaxParams,
                     dataType: "JSON",
                     success: function(data, textStatus, jqXHR) {
-                    	data = calculateObjectValue(options, options.responseHandler, [data], data);
-                        renderTable(data);
+                    	console.log("data:" + data);
+                    	//data = calculateObjectValue(options, options.responseHandler, [data], data);
+                   	 	console.log("data:" + data);
+                    	renderTable(data);
                     },
                     error: function(xhr, textStatus) {
                         var _errorMsg = '<tr><td colspan="' + options.columns.length + '"><div style="display: block;text-align: center;">' + xhr.responseText + '</div></td></tr>'
@@ -243,6 +245,7 @@
             var _root = options.rootIdValue ? options.rootIdValue : null;
             var firstCode = data[0][options.parentCode];
             $.each(data, function(index, item) {
+            	console.log("item"+item[options.parentCode]);
                 // 添加一个默认属性，用来判断当前节点有没有被显示
                 item.isShow = false;
                 // 这里兼容几种常见Root节点写法
@@ -251,7 +254,7 @@
                     item[options.parentCode] == 0 ||
                     item[options.parentCode] == null ||
                     item[options.parentCode] == firstCode ||
-                    item[options.parentCode] == '';
+                    item[options.parentCode] == "";
                 if (!item[options.parentCode] || (_root ? (item[options.parentCode] == options.rootIdValue) : _defaultRootFlag)) {
                     if (!target.data_list["_root_"]) {
                         target.data_list["_root_"] = [];
@@ -612,7 +615,7 @@
         // ruoyi 发起对目标(target)函数的调用
         var calculateObjectValue = function (self, name, args, defaultValue) {
             var func = name;
-
+            console.log("value:" + defaultValue);
             if (typeof name === 'string') {
                 var names = name.split('.');
 

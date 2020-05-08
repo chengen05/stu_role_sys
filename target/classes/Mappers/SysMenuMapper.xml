@@ -186,7 +186,6 @@
   		select 
 		<include refid="Base_Column_List"/> 
 		from  sys_menu
-		where 0 = 0
 		<where>
 			<if test="menuName != null and menuName != ''">
 				AND menu_name like concat('%', #{menuName}, '%')
@@ -197,4 +196,14 @@
 		</where>
 		order by parent_id, order_num
 	</select>
+	
+	  <select id="selectMenuByParentId" parameterType="String" resultMap="BaseResultMap">
+  		select 
+		<include refid="Base_Column_List"/> 
+		from  sys_menu
+		where parent_id = #{parentId}
+		order by order_num
+	</select>
+	
+	
 </mapper>

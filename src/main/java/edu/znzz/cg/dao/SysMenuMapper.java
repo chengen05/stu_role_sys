@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Set;
 
 import edu.znzz.cg.entity.SysMenu;
+import edu.znzz.cg.entity.SysRole;
 /**
  * 菜单数据层
  * @author chen gen
  *
  */
+import edu.znzz.cg.entity.SysZtree;
 public interface SysMenuMapper {
 	/**
 	 * 查询所有菜单
@@ -65,4 +67,11 @@ public interface SysMenuMapper {
      * @return List<SysMenu>
      */
     List<SysMenu> selectMenusByMenu(SysMenu sysMenu);
+    /**
+     * 根据父id查询子菜单
+     * @param parentId
+     * @return List<SysMenu>
+     */
+    List<SysMenu> selectMenuByParentId(String parentId);
+ 
 }

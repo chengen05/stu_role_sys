@@ -35,4 +35,9 @@ public class SysRoleMenuServiceImple implements SysRoleMenuService{
 		return sysRoleMenuMapper.batchRoleMenu(roleMenuList);
 	}
 
+	public int selectCountRoleMenuByMenuId(String menuId) {
+		
+		return sysRoleMenuMapper.selectCountRoleMenuByMenuId(menuId);
+	}
+
 }

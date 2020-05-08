@@ -17,5 +17,12 @@ public interface SysUserRoleService {
      * @return string[] roleid
      */
     String[] selectByUserId(String userId);
+    
+    /**
+     * 根据roleid对应的userId
+     * @param roleId
+     * @return string[] roleId
+     */
+    String[] selectByRoleId(String roleId);
    
 }

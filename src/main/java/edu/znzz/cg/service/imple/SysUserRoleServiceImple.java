@@ -28,4 +28,9 @@ public class SysUserRoleServiceImple implements SysUserRoleService {
 		return sysUserRoleMapper.selectByUserId(userId);
 	}
 
+	public String[] selectByRoleId(String roleId) {
+		
+		return sysUserRoleMapper.selectByRoleId(roleId);
+	}
+
 }

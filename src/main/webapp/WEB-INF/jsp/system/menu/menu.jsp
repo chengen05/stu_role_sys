@@ -21,11 +21,12 @@
 							<li>
 								菜单状态：<select name="visible">
 									<option value="">所有</option>
-									<option></option>
+									<option value="0">显示</option>
+									<option value="1">隐藏</option>
 								</select>
 							</li>
 							<li>
-								<a class="btn btn-primary btn-rounded btn-sm" onclick="search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
 								<a class="btn btn-warning btn-rounded btn-sm" onclick="reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
 							</li>
 						</ul>
@@ -34,14 +35,8 @@
 			</div>
                 
             <div class="btn-group-sm" id="toolbar" role="group">
-		        <a class="btn btn-success" onclick="add('')" shiro:hasPermission="system:menu:add">
+		        <a class="btn btn-success" onclick="add('x')" shiro:hasPermission="system:menu:add">
                     <i class="fa fa-plus"></i> 新增
-                </a>
-                <a class="btn btn-primary" onclick="edit()" shiro:hasPermission="system:menu:edit">
-		            <i class="fa fa-edit"></i> 修改
-		        </a>
-                <a class="btn btn-info" id="expandAllBtn">
-                    <i class="fa fa-exchange"></i> 展开/折叠
                 </a>
 	        </div>
        		 <div class="col-sm-12 select-table table-striped">
@@ -72,7 +67,7 @@
 		            field: 'menuName',
 		            width: '20%',
 		            formatter: function(value, row, index) {
-		                if ($.common.isEmpty(row.icon)) {
+		                if (row.icon != null) {
 		                    return row.menuName;
 		                } else {
 		                    return '<i class="' + row.icon + '"></i> <span class="nav-label">' + row.menuName + '</span>';
@@ -114,11 +109,11 @@
 		            width: '10%',
 		            align: "left",
 		            formatter: function(value, row, index) {
-		            	return $.table.selectDictLabel(datas, row.visible);
+		            	return  visibleStatus(row.visible);
 		            }
 		        },
 		        {
-		            field: 'perms',
+		            field: 'permsKey',
 		            title: '权限标识',
 		            width: '15%',
 		            align: "left",
@@ -129,9 +124,9 @@
 		            align: "left",
 		            formatter: function(value, row, index) {
 		                var actions = [];
-		                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="edit(\'' + row.menuId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-		                actions.push('<a class="btn btn-info btn-xs ' + addFlag + '" href="javascript:void(0)" onclick="add(\'' + row.menuId + '\')"><i class="fa fa-plus"></i>新增</a> ');
-		                actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="remove(\'' + row.menuId + '\')"><i class="fa fa-trash"></i>删除</a>');
+		                actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="edit(\'' + row.menuId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+		                actions.push('<a class="btn btn-info btn-xs " href="javascript:void(0)" onclick="add(\'' + row.menuId + '\')"><i class="fa fa-plus"></i>新增</a> ');
+		                actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="remove(\'' + row.menuId + '\')"><i class="fa fa-trash"></i>删除</a>');
 		                return actions.join('');
 		            }
 		        }]
@@ -140,8 +135,35 @@
 		});
 		
 		function add(parentId){
-			open("添加系统菜单",prefix + "/add/{parentId}");
+			open("添加系统菜单",prefix + "/add/" + parentId);
 		}
+		
+		function visibleStatus(vis){
+			if(vis == 0){
+				return  "<span class='badge badge-primary'>显示</span>";
+			}else if(vis == 1){
+				return "隐藏";
+			}
+			return false;
+		}
+		
+	   	 function remove(id){
+			 layer.confirm("确认要删除选中的这条数据吗?",{icon:3,title:"系统提示",btn:["确定","取消"]}, function(index) {
+					var url = prefix + "/remove";
+					rowid = {"ids":id};
+					layer.close(index);
+					submit(url, "post", "json", rowid,1);
+				}); 
+		 }
+	   	 
+	   	 function edit(id){
+	   		if(id != null && id != undefined){
+				open("修改菜单",prefix + "/update?menuId="+id+"");
+			}else{
+				 msg("请选择一条记录","warning");
+				 return;
+			}
+	   	 }
 	</script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package edu.znzz.cg.entity;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class SysRole {
@@ -23,6 +24,18 @@ public class SysRole {
 
     private String remark;
 
+    /** ²Ëµ¥×é */
+    private String[] menuIds;
+    
+    
+
+	public String[] getMenuIds() {
+		return menuIds;
+	}
+
+	public void setMenuIds(String[] menuIds) {
+		this.menuIds = menuIds;
+	}
 
 	public String getRoleId() {
         return roleId;
@@ -108,8 +121,10 @@ public class SysRole {
 	public String toString() {
 		return "SysRole [roleId=" + roleId + ", roleName=" + roleName + ", roleKey=" + roleKey + ", orderNum="
 				+ orderNum + ", status=" + status + ", createBy=" + createBy + ", createTime=" + createTime
-				+ ", updateBy=" + updateBy + ", updateTime=" + updateTime + ", remark=" + remark + "]";
+				+ ", updateBy=" + updateBy + ", updateTime=" + updateTime + ", remark=" + remark + ", menuIds="
+				+ Arrays.toString(menuIds) + "]";
 	}
+
     
     
 }

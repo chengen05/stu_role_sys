@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import edu.znzz.cg.entity.SysMenu;
+import edu.znzz.cg.entity.SysRole;
+import edu.znzz.cg.entity.SysZtree;
 
 /**
  * menu service
@@ -68,4 +70,17 @@ public interface SysMenuService {
      * @return List<SysMenu>
      */
     List<SysMenu> selectMenusByMenu(SysMenu sysMenu);
-}
+    
+    /**
+     * 根据父id查询子菜单
+     * @param parentId
+     * @return List<SysMenu>
+     */
+    List<SysMenu> selectMenuByParentId(String parentId);
+    /**
+     * 根据角色查询菜单
+     * @param sysRole
+     * @return List<SysZtree>
+     */
+    List<SysZtree> roleMenuTree(SysRole sysRole);
+ }

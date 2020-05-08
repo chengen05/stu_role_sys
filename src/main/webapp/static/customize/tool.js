@@ -1,6 +1,5 @@
          /** 消息提示并刷新父窗体 */
 		function msgReload(msg, type){
-			
 			layer.msg(msg, {
         	    icon: icon(type),
         	    time: 500,
@@ -79,9 +78,6 @@
         		type: type,
         		dateType: dataType,
         		data:data,
-        		beforeSend:function(){
-        			$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div>正在处理中，请稍后...</div>' });
-        		},
         		success: function(result){
         			if(result.code == 200){
         				if(various == 1){
@@ -94,7 +90,6 @@
         			}else{
         				msg(result.msg,"error");
         			}
-        			closeblock();
         			if(various != 1){
         				location.reload();
         			}
